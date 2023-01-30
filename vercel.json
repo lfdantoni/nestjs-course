@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "framework": "nestjs",
   "builds": [
     {
       "src": "src/main.ts",
