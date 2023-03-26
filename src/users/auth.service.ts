@@ -28,20 +28,33 @@ export class AuthService {
   }
 
   async signin(email: string, password: string) {
+    // look for the user by email
     const [user] = await this.userService.find(email);
 
     if(!user) {
+      // if no user is found, throw an error
       throw new NotFoundException('user not found')
     }
 
+    // get the salt and hash from the user's password
     const [salt, storedHash] = user.password.split('.')
 
-    const hash = (await scrypt(password, salt, 32)) as Buffer;
-
-    if(storedHash !== hash.toString('hex')) {
+    let hash: Buffer;
+    try {
+      // hash the password provided by the user
+      hash = (await scrypt(password, salt, 32)) as Buffer;
+    } catch(err) {
+      // if there is an error, throw a bad request error
       throw new BadRequestException('invalid user or password')
     }
 
+    // compare the stored hash to the hash of the password provided by the user
+    if(storedHash !== hash.toString('hex')) {
+      // if the hashes don't match, throw an error
+      throw new BadRequestException('invalid user or password')
+    }
+
+    // if the hashes match, return the user
     return user;
   }
 }
