@@ -4,12 +4,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
-import { User } from './users/user.entity';
-import { Report } from './reports/report.entity';
 import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '@nestjs/config/dist';
+import {dataSourceOptions} from './ormconfig';
+
 const cookieSession = require('cookie-session');
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,16 +19,18 @@ const cookieSession = require('cookie-session');
     }),
     UsersModule,
     ReportsModule,
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'sqlite',
-        database: configService.get<string>('DB_NAME'),
-        // database: ':memory:',
-        entities: [User, Report],
-        synchronize: true,
-      }),
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
+
+    // TypeOrmModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: (configService: ConfigService) => ({
+    //     type: 'sqlite',
+    //     database: configService.get<string>('DB_NAME'),
+    //     // database: ':memory:',
+    //     entities: [User, Report],
+    //     synchronize: true,
+    //   }),
+    // }),
     // TypeOrmModule.forRoot({
     //   type: 'sqlite',
     //   database: 'db.sqlite',
@@ -48,10 +51,12 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService) { }
+
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(cookieSession({
-        keys: ['as123dqwrsad']
+        keys: [this.configService.get<string>('COOKIE_KEY')]
       }))
       .forRoutes('*');
   }
