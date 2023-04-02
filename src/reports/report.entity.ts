@@ -9,7 +9,7 @@ export class Report {
   @Column({ default: false })
   approved: boolean;
 
-  @Column()
+  @Column({type: "decimal", precision: 10, scale: 2, default: 0})
   price: number;
 
   @Column()
@@ -21,13 +21,13 @@ export class Report {
   @Column()
   year: number;
 
-  @Column()
+  @Column({type: "decimal", precision: 10, scale: 4, default: 0})
   lng: number;
 
-  @Column()
+  @Column({type: "decimal", precision: 10, scale: 4, default: 0})
   lat: number;
 
-  @Column()
+  @Column({type: "decimal", precision: 10, scale: 2, default: 0})
   mileage: number;
 
   @ManyToOne(() => User, user => user.reports)
