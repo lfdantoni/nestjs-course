@@ -20,7 +20,7 @@ switch (process.env.NODE_ENV) {
     break;
   case 'production':
     Object.assign(dataSourceOptions, {
-      type: 'mongodb',
+      type: 'postgres',
       url: process.env.DATABASE_URL,
       migrationRun: true,
     });
