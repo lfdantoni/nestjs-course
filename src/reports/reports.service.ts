@@ -47,6 +47,7 @@ export class ReportsService {
       .andWhere('year - :year BETWEEN -3 AND 3', { year })
       .andWhere('approved = true')
       .orderBy('ABS(mileage - :mileage)', 'DESC')
+      .groupBy('mileage')
       .setParameters({ mileage })
       .limit(3)
       .getRawOne();
