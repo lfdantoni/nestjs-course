@@ -22,6 +22,7 @@ switch (process.env.NODE_ENV) {
     Object.assign(dataSourceOptions, {
       type: 'mongodb',
       url: process.env.MONGODB_URI,
+      migrationRun: true,
     });
     break;
   default:
