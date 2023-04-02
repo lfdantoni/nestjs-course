@@ -23,6 +23,7 @@ switch (process.env.NODE_ENV) {
       type: 'postgres',
       url: process.env.DATABASE_URL,
       migrationRun: true,
+      migrations: [__dirname + '/migrations/*{.ts,.js}'],
       ssl: {
         rejectUnauthorized: false,
       }
