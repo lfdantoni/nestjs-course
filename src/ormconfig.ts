@@ -13,6 +13,7 @@ switch (process.env.NODE_ENV) {
     });
     break;
   case 'test':
+    console.log('test');
     Object.assign(dataSourceOptions, {
       type: 'sqlite',
       database: 'test.sqlite',
