@@ -23,6 +23,9 @@ switch (process.env.NODE_ENV) {
       type: 'postgres',
       url: process.env.DATABASE_URL,
       migrationRun: true,
+      ssl: {
+        rejectUnauthorized: false,
+      }
     });
     break;
   default:
