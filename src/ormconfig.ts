@@ -21,7 +21,7 @@ switch (process.env.NODE_ENV) {
   case 'production':
     Object.assign(dataSourceOptions, {
       type: 'mongodb',
-      url: process.env.MONGODB_URI,
+      url: process.env.DATABASE_URL,
       migrationRun: true,
     });
     break;

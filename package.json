@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build & npm run migrate:production",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "cross-env NODE_ENV=production nest start",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
@@ -20,10 +20,12 @@
     "test:e2e": "cross-env NODE_ENV=test npm run migrate:test & jest --config ./test/jest-e2e.json --maxWorkers=1",
     "typeorm": "cross-env NODE_ENV=development typeorm-ts-node-commonjs -d migration-ormconfig.ts",
     "typeorm:test": "cross-env NODE_ENV=test typeorm-ts-node-commonjs -d migration-ormconfig.ts",
+    "typeorm:production": "cross-env NODE_ENV=production typeorm-ts-node-commonjs -d migration-ormconfig.ts",
     "migration:generate": "npm run typeorm migration:generate --",
     "migration:create": "npm run typeorm migration:create --",
     "migrate": "npm run typeorm migration:run",
     "migrate:test": "npm run typeorm:test migration:run",
+    "migrate:production": "npm run typeorm:production migration:run",
     "rollback": "npm run typeorm migration:revert"
   },
   "dependencies": {
